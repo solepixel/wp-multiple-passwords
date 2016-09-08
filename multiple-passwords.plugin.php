@@ -84,9 +84,19 @@ function wpmp_override_password(){
 
 	// Check the extra passwords to see if the submitted password matches
 	foreach( $extra_passwords as $password ){
+		if( ! $password )
+			continue;
+
 		$check_password = $password;
-		if( is_array( $check_password ) ) // ACF Support
+
+		if( is_array( $check_password ) && isset( $check_password['password'] ) ) // ACF Support
 			$check_password = $check_password['password'];
+		
+		if( is_string( $check_password ) || is_numeric( $check_password ) )
+			$check_password = trim( $check_password );
+		else
+			continue; // must be an object or something not supported.
+
 		if( $hasher->CheckPassword( $check_password, $hash ) ){
 			$passed = $check_password;
 			break;
