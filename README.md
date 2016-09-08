@@ -65,3 +65,14 @@ function mytheme_extra_array_passwords( $extra_passwords, $post ){
 
 ## Notes
 It is required by this plugin to have an actual password stored in the original WordPress "Password" field in order for it to work. This plugin does not modify any of the default WordPress password protected posts functionality so should be compatible with any specific tweaks made to the functionality or `the_password_form` changes made to Password Protected posts/pages.
+
+## Changelog
+
+#### 1.0.1
+* Added some checks for proper syntax
+* Trimmed whitespace from passwords
+* Skipped empty passwords
+* Set default value of $extra_passwords to array()
+
+#### 1.0.0
+* Initial Release
