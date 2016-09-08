@@ -43,8 +43,11 @@ function wpmp_override_password(){
 		return;
 
 	// this part needs ACF
-	$extra_passwords = function_exists( 'get_field' ) ? get_field( '_extra_passwords' ) : false;
+	$extra_passwords = function_exists( 'get_field' ) ? get_field( '_extra_passwords' ) : array();
+	
+	// You can set your own passwords here: (see below)
 	$extra_passwords = apply_filters( 'wpmp_extra_passwords', $extra_passwords, $post );
+	
 	/*
 
 	# $extra_passwords format needs to be passed as an array in plain text:
