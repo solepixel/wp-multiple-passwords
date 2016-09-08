@@ -3,7 +3,7 @@
  Plugin Name: WP Multiple Passwords
  Plugin URI: https://github.com/solepixel/wp-multiple-passwords
  Description: Store Multiple Passwords for Password protected posts and pages. Includes Advanced Custom Fields support, but can work with any setup by using the filter <code>wpmp_extra_passwords</code>.
- Version: 1.0.0
+ Version: 1.0.1
  Author: Brian DiChiara
  Author URI: http://briandichiara.com
  Text Domain: wpmp
