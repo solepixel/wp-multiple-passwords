@@ -1,5 +1,5 @@
 # WP Multiple Passwords
-Allow multiple passwords for password protected pages and posts. Includes Advanced Custom Fields support, but not required.
+Allow multiple passwords for password protected pages and posts. Includes Advanced Custom Fields (5.x) support, but not required.
 
 ## Installation
 1. Upload wp-multiple-passwords into your WordPress plugins folder.
@@ -9,11 +9,11 @@ Allow multiple passwords for password protected pages and posts. Includes Advanc
 1. Create a post or page and set visibility to Password Protected
 2. Set your password
 3. Save/Update your post/page
-4. If using ACF you will see a new meta box titled "Additional Passwords"
+4. If using ACF (5.x) you will see a new meta box titled "Additional Passwords"
 5. Enter as many passwords as you'd like to allow access to this page.
 6. Update your post/page.
 
-If you are using ACF (Advanced Custom Fields), there's nothing left to do. If you would like to use your own meta box solution, follow the instructions below to hook into this plugin.
+If you are using ACF (Advanced Custom Fields) 5.x, there's nothing left to do. If you would like to use your own meta box solution, follow the instructions below to hook into this plugin. Advanced Custom Fields 4.x is currently not supported.
 
 ## Custom Meta Box
 You may choose not to use ACF to handle your additional password storage and would like to build your own, or maybe you just want to hard code some extra passwords into your theme. The plugin has a filter for passing passwords into a post/page.
