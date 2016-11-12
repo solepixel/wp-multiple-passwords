@@ -3,7 +3,7 @@
  Plugin Name: WP Multiple Passwords
  Plugin URI: https://github.com/solepixel/wp-multiple-passwords
  Description: Store Multiple Passwords for Password protected posts and pages. Includes Advanced Custom Fields support, but can work with any setup by using the filter <code>wpmp_extra_passwords</code>.
- Version: 1.0.1
+ Version: 1.1.0
  Author: Brian DiChiara
  Author URI: http://briandichiara.com
  Text Domain: wpmp
@@ -44,10 +44,15 @@ function wpmp_override_password(){
 
 	// this part needs ACF
 	$extra_passwords = function_exists( 'get_field' ) ? get_field( '_extra_passwords' ) : array();
-	
+
+	// this will add non-pro ACF support
+	if( $extra_passwords && ! function_exists('acf_add_local_field_group') && function_exists('register_field_group') ){
+		$extra_passwords = array_filter( preg_split( '/\r\n|[\r\n]/', $extra_passwords ) );
+	}
+
 	// You can set your own passwords here: (see below)
 	$extra_passwords = apply_filters( 'wpmp_extra_passwords', $extra_passwords, $post );
-	
+
 	/*
 
 	# $extra_passwords format needs to be passed as an array in plain text:
@@ -94,7 +99,7 @@ function wpmp_override_password(){
 
 		if( is_array( $check_password ) && isset( $check_password['password'] ) ) // ACF Support
 			$check_password = $check_password['password'];
-		
+
 		if( is_string( $check_password ) || is_numeric( $check_password ) )
 			$check_password = trim( $check_password );
 		else
@@ -185,94 +190,133 @@ function wpmp_location_rules_match_visibility( $match, $rule, $options ){
 	return $match;
 }
 
+$wpmp_repeater_field = array (
+	'key' => 'field_579786e0d0eea',
+	'label' => __( 'Extra Passwords', 'wpmp' ),
+	'name' => '_extra_passwords',
+	'type' => 'repeater',
+	'instructions' => '',
+	'required' => 0,
+	'conditional_logic' => 0,
+	'wrapper' => array (
+		'width' => '',
+		'class' => '',
+		'id' => '',
+	),
+	'collapsed' => 'field_57978711d0eec',
+	'min' => '',
+	'max' => '',
+	'layout' => 'block',
+	'button_label' => __( 'Add Password', 'wpmp' ),
+	'sub_fields' => array (
+		array (
+			'key' => 'field_579786fcd0eeb',
+			'label' => __( 'Password', 'wpmp' ),
+			'name' => 'password',
+			'type' => 'text',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => '',
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'maxlength' => '',
+			'readonly' => 0,
+			'disabled' => 0,
+		),
+		array (
+			'key' => 'field_57978711d0eec',
+			'label' => __( 'Label', 'wpmp' ),
+			'name' => 'label',
+			'type' => 'text',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => '',
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'maxlength' => '',
+			'readonly' => 0,
+			'disabled' => 0,
+		),
+	),
+);
+
+$wpmp_textarea_field = array (
+	'key' => 'field_582771dd32cb8',
+	'label' => __( 'Extra Passwords', 'wpmp' ),
+	'name' => '_extra_passwords',
+	'type' => 'textarea',
+	'instructions' => __( 'Place passwords on individual lines.', 'wpmp' ),
+	'default_value' => '',
+	'placeholder' => '',
+	'maxlength' => '',
+	'rows' => 6,
+	'formatting' => 'none',
+);
+
+$addl_passwords_field = array (
+	'key' => 'group_579786b845c7f',
+	'title' => __( 'Additional Passwords', 'wpmp' ),
+	'options' => array (
+		'position' => 'side',
+		'layout' => 'default',
+		'hide_on_screen' => array (
+		),
+	),
+	'fields' => array (),
+	'location' => array (
+		array (
+			array (
+				'param' => 'page_visibility',
+				'operator' => '==',
+				'value' => 'password',
+				'order_no' => 0,
+				'group_no' => 0,
+			),
+		),
+		array (
+			array (
+				'param' => 'post_visibility',
+				'operator' => '==',
+				'value' => 'password',
+				'order_no' => 0,
+				'group_no' => 1,
+			),
+		),
+	),
+	'menu_order' => 0,
+	'position' => 'side',
+	'style' => 'default',
+	'label_placement' => 'top',
+	'instruction_placement' => 'label',
+	'hide_on_screen' => '',
+	'active' => 1,
+	'description' => '',
+);
 
 if( function_exists('acf_add_local_field_group') ):
 
-	acf_add_local_field_group(array (
-		'key' => 'group_579786b845c7f',
-		'title' => __( 'Additional Passwords', 'wpmp' ),
-		'fields' => array (
-			array (
-				'key' => 'field_579786e0d0eea',
-				'label' => __( 'Extra Passwords', 'wpmp' ),
-				'name' => '_extra_passwords',
-				'type' => 'repeater',
-				'instructions' => '',
-				'required' => 0,
-				'conditional_logic' => 0,
-				'wrapper' => array (
-					'width' => '',
-					'class' => '',
-					'id' => '',
-				),
-				'collapsed' => 'field_57978711d0eec',
-				'min' => '',
-				'max' => '',
-				'layout' => 'block',
-				'button_label' => __( 'Add Password', 'wpmp' ),
-				'sub_fields' => array (
-					array (
-						'key' => 'field_579786fcd0eeb',
-						'label' => __( 'Password', 'wpmp' ),
-						'name' => 'password',
-						'type' => 'text',
-						'instructions' => '',
-						'required' => 0,
-						'conditional_logic' => 0,
-						'wrapper' => array (
-							'width' => '',
-							'class' => '',
-							'id' => '',
-						),
-						'default_value' => '',
-						'placeholder' => '',
-						'prepend' => '',
-						'append' => '',
-						'maxlength' => '',
-						'readonly' => 0,
-						'disabled' => 0,
-					),
-					array (
-						'key' => 'field_57978711d0eec',
-						'label' => __( 'Label', 'wpmp' ),
-						'name' => 'label',
-						'type' => 'text',
-						'instructions' => '',
-						'required' => 0,
-						'conditional_logic' => 0,
-						'wrapper' => array (
-							'width' => '',
-							'class' => '',
-							'id' => '',
-						),
-						'default_value' => '',
-						'placeholder' => '',
-						'prepend' => '',
-						'append' => '',
-						'maxlength' => '',
-						'readonly' => 0,
-						'disabled' => 0,
-					),
-				),
-			),
-		),
-		'location' => array (
-			array (
-				array (
-					'param' => 'post_visibility',
-					'operator' => '==',
-					'value' => 'password',
-				),
-			),
-		),
-		'menu_order' => 0,
-		'position' => 'side',
-		'style' => 'default',
-		'label_placement' => 'top',
-		'instruction_placement' => 'label',
-		'hide_on_screen' => '',
-		'active' => 1,
-		'description' => '',
-	));
+	$addl_passwords_field['fields'] = array( $wpmp_repeater_field );
+
+	acf_add_local_field_group( $addl_passwords_field );
+
+elseif( function_exists('register_field_group') ):
+
+	$addl_passwords_field['fields'] = array( $wpmp_textarea_field );
+
+	register_field_group( $addl_passwords_field );
 
 endif;
