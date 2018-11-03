@@ -68,6 +68,10 @@ It is required by this plugin to have an actual password stored in the original 
 
 ## Changelog
 
+#### 1.1.1
+* Updated support for ACF 5.x (Free, non-PRO version)
+* WordPress coding standards
+
 #### 1.1.0
 * Added support for ACF 4.x (Free, non-PRO version)
 
